@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Software Download Hub</title>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+  />
+  <style>
+    /* Reset and base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      min-height: 100vh;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 40px 20px;
+    }
+
+    .container {
+      background: white;
+      max-width: 800px;
+      width: 100%;
+      border-radius: 20px;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+      padding: 40px 50px;
+    }
+
+    h1 {
+      font-weight: 900;
+      font-size: 2.8rem;
+      text-align: center;
+      color: #3b2f8f;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+
+    p {
+      font-size: 1.1rem;
+      color: #666;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    /* Payment Section */
+    .payment-section {
+      background: #f9f9fd;
+      border-radius: 16px;
+      padding: 30px 40px;
+      box-shadow: inset 0 0 15px rgb(115 103 240 / 0.15);
+    }
+
+    .payment-section h2 {
+      color: #3b2f8f;
+      font-weight: 700;
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .payment-instructions {
+      text-align: center;
+      font-size: 1rem;
+      color: #666;
+      margin-bottom: 30px;
+      line-height: 1.5;
+    }
+
+    .payment-methods {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+
+    .qr-container,
+    .upi-details {
+      background: white;
+      border-radius: 15px;
+      padding: 25px 30px;
+      box-shadow: 0 8px 25px rgb(115 103 240 / 0.15);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+    .qr-container:hover,
+    .upi-details:hover {
+      transform: translateY(-7px);
+      box-shadow: 0 20px 40px rgb(115 103 240 / 0.3);
+    }
+
+    .qr-container h3,
+    .upi-details h3 {
+      color: #725de0;
+      font-weight: 700;
+      margin-bottom: 20px;
+      font-size: 1.3rem;
+      text-align: center;
+    }
+
+    .qr-code {
+      display: block;
+      margin: 0 auto 15px auto;
+      width: 180px;
+      height: 180px;
+      border-radius: 16px;
+      border: 4px solid #6339e0;
+      box-shadow: 0 4px 25px rgb(99 57 224 / 0.5);
+      object-fit: contain;
+      background: white;
+    }
+
+    .qr-container p,
+    .upi-details p {
+      font-size: 0.95rem;
+      text-align: center;
+      color: #888;
+    }
+
+    .qr-container a {
+      margin-top: 8px;
+      display: inline-block;
+      color: #725de0;
+      text-decoration: underline;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* UPI Payment */
+    .upi-id {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-size: 1.2rem;
+      background: #f0f1ff;
+      border-radius: 12px;
+      padding: 15px 20px;
+      color: #4130a5;
+      font-weight: 600;
+      user-select: none;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      cursor: pointer;
+      margin-bottom: 15px;
+      box-shadow: inset 0 0 8px rgb(112 83 255 / 0.3);
+    }
+
+    .upi-id:hover {
+      background: #6339e0;
+      color: white;
+    }
+
+    .copy-button {
+      display: block;
+      width: 100%;
+      background: #6339e0;
+      color: white;
+      border: none;
+      padding: 12px 0;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 8px 15px rgb(99 57 224 / 0.55);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .copy-button:hover {
+      background: #8252ff;
+      box-shadow: 0 12px 25px rgb(130 82 255 / 0.7);
+    }
+
+    /* Secured Badge */
+    .secured-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #44c767;
+      font-weight: 700;
+      font-size: 1.15rem;
+      margin-top: 25px;
+      gap: 12px;
+    }
+
+    /* Download Section */
+    #downloadSection {
+      margin-top: 40px;
+      text-align: center;
+    }
+
+    #downloadSection .features {
+      display: flex;
+      justify-content: center;
+      gap: 35px;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+    }
+
+    #downloadSection .feature-item {
+      background: #725de0;
+      color: white;
+      padding: 15px 22px;
+      border-radius: 25px;
+      font-weight: 700;
+      font-size: 1rem;
+      box-shadow: 0 5px 15px rgb(114 93 224 / 0.7);
+      user-select: none;
+      flex: 1 1 130px;
+      max-width: 200px;
+      transition: background-color 0.3s ease;
+    }
+
+    #downloadSection .feature-item:hover {
+      background: #6339e0;
+      cursor: default;
+    }
+
+    /* Download Button */
+    .download-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: white;
+      background: #44c767;
+      padding: 15px 40px;
+      font-size: 1.3rem;
+      font-weight: 800;
+      border-radius: 60px;
+      text-decoration: none;
+      box-shadow: 0 10px 30px rgb(68 199 103 / 0.7);
+      transition:
+        background-color 0.3s ease,
+        box-shadow 0.3s ease;
+      user-select: none;
+      cursor: pointer;
+      border: none;
+      margin-bottom: 10px;
+    }
+
+    .download-button:hover {
+      background-color: #36b757;
+      box-shadow: 0 15px 35px rgb(54 183 87 / 0.85);
+    }
+
+    /* Download icon */
+    .download-icon {
+      font-weight: 900;
+      font-size: 1.6rem;
+    }
+
+    /* Confirm payment button */
+    div > .download-button:last-child {
+      background-color: #6339e0;
+      box-shadow: 0 10px 30px rgb(99 57 224 / 0.6);
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    div > .download-button:last-child:hover {
+      background-color: #8252ff;
+      box-shadow: 0 15px 30px rgb(130 82 255 / 0.75);
+    }
+
+    /* Payment verified message */
+    .payment-verified {
+      font-size: 3rem;
+      color: #44c767;
+      margin-bottom: 18px;
+      user-select: none;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 25px 20px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      .payment-methods {
+        grid-template-columns: 1fr;
+      }
+
+      #downloadSection .features {
+        flex-direction: column;
+      }
+
+      #downloadSection .feature-item {
+        max-width: 100%;
+        margin-bottom: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Download Software OFFLINE MCQ TESTER</h1>
+    <p>Get ready to experience our amazing software solution!</p>
+
+    <!-- Payment Section -->
+    <div class="payment-section">
+      <h2>Secure Payment (₹299)</h2>
+      <div class="payment-instructions">
+        Complete payment to unlock download. Choose your preferred method:
+      </div>
+
+      <div class="payment-methods">
+        <!-- QR Code Payment -->
+        <div class="qr-container" tabindex="0" aria-label="Scan QR Code Payment">
+          <h3>Scan QR Code</h3>
+          <img
+            src="WhatsApp Image 2025-05-26 at 14.04.59_09865a8c.jpg"
+            alt="Payment QR Code"
+            class="qr-code"
+            aria-describedby="qr-desc"
+          />
+          <p class="payment-instructions" id="qr-desc">
+            Scan with any UPI app<br />
+            <a href="WhatsApp Image 2025-05-26 at 14.04.59_09865a8c.jpg" download>Download QR Code</a>
+          </p>
+        </div>
+
+        <!-- UPI Payment -->
+        <div class="upi-details" tabindex="0" aria-label="UPI Payment Details">
+          <h3>UPI Payment</h3>
+          <div class="upi-id" onclick="copyUPI()" title="Click to copy UPI ID" role="button" tabindex="0" onkeypress="if(event.key==='Enter'){copyUPI()}">
+            <i class="fas fa-wallet"></i> 9876543210@upi
+          </div>
+          <button class="copy-button" onclick="copyUPI()" aria-label="Copy UPI ID to clipboard">
+            <i class="fas fa-copy"></i> Copy UPI ID
+          </button>
+          <p class="payment-instructions">Paste in your banking app to pay</p>
+        </div>
+      </div>
+
+      <div class="secured-badge" aria-label="Secured with Razorpay">
+        <i class="fas fa-shield-alt"></i> Secured with Razorpay
+      </div>
+    </div>
+
+    <!-- Download Section (Initially hidden) -->
+    <div id="downloadSection" style="display: none;">
+      <div class="features" aria-live="polite" aria-atomic="true">
+        <div class="feature-item">Fast Download</div>
+        <div class="feature-item">Secure Files</div>
+        <div class="feature-item">Latest Version</div>
+      </div>
+
+      <a href="C:\Users\siddh\Downloads\project-bolt-sb1-j6igqcvk.zip" class="download-button" download>
+        <span class="download-icon">↓</span>
+        Download Now
+      </a>
+    </div>
+
+    <div style="margin-top: 20px;">
+      <button
+        class="download-button"
+        onclick="showPaymentConfirmation()"
+        aria-label="I have made payment"
+      >
+        <i class="fas fa-check-circle"></i> I've Made Payment
+      </button>
+    </div>
+  </div>
+
+  <script>
+    function copyUPI() {
+      const upiId = '8951997122@axl';
+      navigator.clipboard.writeText(upiId).then(() => {
+        alert('UPI ID copied to clipboard!');
+      }).catch(() => {
+        alert('Failed to copy UPI ID. Please copy manually.');
+      });
+    }
+
+    function showPaymentConfirmation() {
+      // Display download section
+      document.getElementById('downloadSection').style.display = 'block';
+
+      // Replace payment section content with confirmation message
+      const paymentSection = document.querySelector('.payment-section');
+      paymentSection.innerHTML = `
+        <div style="text-align: center; padding: 20px;">
+          <div class="payment-verified">
+            <i class="fas fa-check-circle"></i>
+          </div>
+          <h3>Payment Verified Successfully!</h3>
+          <p>You can now download the software</p>
+        </div>
+      `;
+    }
+
+    // Loading animation for download button
+    let isProcessing = false;
+    document.querySelector('.download-button').addEventListener('click', function () {
+      if (!isProcessing) {
+        isProcessing = true;
+        this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+        setTimeout(() => {
+          isProcessing = false;
+          this.innerHTML = '<span class="download-icon">↓</span> Download Now';
+        }, 2000);
+      }
+    });
+  </script>
+</body>
+</html>
